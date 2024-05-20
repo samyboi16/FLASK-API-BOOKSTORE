@@ -44,21 +44,10 @@
             {% endfor %}
             </table>
             <br><br><br>
-
-            <form method="POST" action="/tempcheck">
-                <select name="sort_option">
-                    <option value="asc_bname">A-Z Book name</option>
-                    <option value="desc_bname">Z-A Book name</option>
-                    <option value="asc_auth">A-Z Author name</option>
-                    <option value="desc_auth">Z-A Author Name</option>
-                </select>
-                <input type="submit" value="Sort">
-            </form>
             
             <br><br><br>            
             <button><a href="http://127.0.0.1:5050/update ">Update your collection</a></button>
             <button><a href="http://127.0.0.1:5050/remove">Remove from your collection</a></button>
-            <button><a href="http://127.0.0.1:5050/">export to .csv </a></button>
             <button><a href="http://127.0.0.1:5050/index " >Home Page</a></button>
             
         </div>
