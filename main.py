@@ -18,41 +18,6 @@ mysql=MySQL(app)
 app.secret_key = 'lulsecintern'
 
 #######################################################################################################################################################################
-
-@app.route('/tempcheck',methods=['GET','POST'])
-def tempchecking():
-    try:
-        sort_option = request.form.get('sort_option')
-        if sort_option == 'asc_bname':
-            query = "SELECT * FROM booksinstore ORDER BY BookName ASC"
-        elif sort_option=='desc_bname':
-            query = "SELECT * FROM booksinstore ORDER BY BookName DESC"
-        elif sort_option=='asc_auth':
-            query = "SELECT * FROM booksinstore ORDER BY Author ASC"
-        elif sort_option=='desc_auth':
-            query= "SELECT * FROM booksinstore ORDER BY Author DESC"
-        # Execute your query here
-        cursor = mysql.connection.cursor()
-        #getting all the books
-        cursor.execute(query)
-        data=cursor.fetchall() 
-        
-        columns = [desc[0] for desc in cursor.description]
-        # Initialize an empty list to store the dictionary entries
-        data_as_dict = []
-        # Fetch all rows and convert them into dictionaries
-        for row in data:
-            row_dict = {}
-            for i, value in enumerate(row):
-                row_dict[columns[i]] = value
-            data_as_dict.append(row_dict)
-        #return jsonify({'Book status': data})
-
-        return render_template('bookcollectionsort.html', collection=data_as_dict)
-    except Exception as e:
-       return jsonify({'error': str(e)})
-
-#######################################################################################################################################################################
 @app.route('/books', methods=['GET'])
 def get_books():
     try:
@@ -89,19 +54,6 @@ def jsonofbooks():
     except Exception as e:
        return jsonify({'error': str(e)})
 
-@app.route('/bookstatus', methods=['GET'])
-def get_statusofbooks():
-    try:
-       #establishing connection with mysql server
-       cursor = mysql.connection.cursor()
-       #getting all the books
-       cursor.execute("SELECT book_name,status FROM books")  
-       books_data = cursor.fetchall()
-       cursor.close()
-       return jsonify({'Book status': books_data})
-    except Exception as e:
-       return jsonify({'error': str(e)})
-    
 @app.route("/remove", methods=["GET", "POST"])
 def remove():
     msg=''
@@ -133,19 +85,6 @@ def update():
         mysql.connection.commit()
         msg = 'Updated successfully!'
     return render_template("update.html",msg=msg)
-
-@app.route('/bookname', methods=['GET'])
-def get_bookname():
-    try:
-       #establishing connection with mysql server
-       cursor = mysql.connection.cursor()
-       #getting all the books
-       cursor.execute("SELECT book_name FROM books")  
-       books_data = cursor.fetchall()
-       cursor.close()
-       return jsonify({'Book Name': books_data})
-    except Exception as e:
-       return jsonify({'error': str(e)})
 
 ###############################################################################################################################################
 
