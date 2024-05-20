@@ -1,13 +1,10 @@
-from flask_sqlalchemy import SQLAlchemy
-import uuid
+
+
 from flask_mysqldb import MySQL
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 import MySQLdb.cursors  
-import re
 import json
-from json2html import json2html
-import pandas as pd
-#######################################################################################################################################################################
+#######################################################################################################################################################################'
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -140,6 +137,3 @@ def register():
         msg = 'Please fill out the form !'
     return render_template('register.html', msg = msg)
 
-
-if __name__ == '__main__':
-    app.run(debug=True, port=5050)
