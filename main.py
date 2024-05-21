@@ -15,6 +15,10 @@ mysql=MySQL(app)
 app.secret_key = 'lulsecintern'
 
 #######################################################################################################################################################################
+@app.route('/',methods=['GET'])
+def homepage():
+    return render_template('Homepage.html')
+
 @app.route('/books', methods=['GET'])
 def get_books():
     try:
