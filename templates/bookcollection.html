@@ -46,9 +46,10 @@
             <br><br><br>
             
             <br><br><br>            
-            <button><a href="http://127.0.0.1:5050/update ">Update your collection</a></button>
-            <button><a href="http://127.0.0.1:5050/remove">Remove from your collection</a></button>
-            <button><a href="http://127.0.0.1:5050/index " >Home Page</a></button>
+            <button><a href="{{url_for('get_books')}}">Your Book Collection</a></button>
+            <button><a href="{{url_for('update')}} ">Update your collection</a></button>
+            <button><a href="{{url_for('remove')}}">Remove from your collection</a></button>
+            <button><a href="{{url_for('index')}}" >Home Page</a></button>
             
         </div>
     </body>
