@@ -20,9 +20,9 @@
             <h1>BOOK STORE FRONT</h1>
             <img src="static\Bookstorelogo (Small).jpg"><br><br>
             <p>Hello {{ message }}</p>
-            <button><a href="http://127.0.0.1:5050/books">Your Book Collection</a></button>
-            <button><a href="http://127.0.0.1:5050/update ">Update your collection</a></button>
-            <button><a href="http://127.0.0.1:5050/remove">Remove from your collection</a></button>
+            <button><a href="{{url_for('get_books')}}">Your Book Collection</a></button>
+            <button><a href="{{url_for('update')}} ">Update your collection</a></button>
+            <button><a href="{{url_for('remove')}}">Remove from your collection</a></button>
             <br>
             <br>
             <a href="{{ url_for('logout') }}" class="btn">Logout</a>
