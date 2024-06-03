@@ -6,10 +6,10 @@ import MySQLdb.cursors
 import json
 #######################################################################################################################################################################'
 app = Flask(__name__)
-app.config['MYSQL_HOST'] = 'sql7.freesqldatabase.com'
-app.config['MYSQL_USER'] = 'sql7708265'
-app.config['MYSQL_PASSWORD'] = 'BDRpmUuQ4Y'
-app.config['MYSQL_DB'] = 'sql7708265'
+app.config['MYSQL_HOST'] = 'flaskmysql-277577af-sameer-8484.f.aivencloud.com'
+app.config['MYSQL_USER'] = 'avnadmint'
+app.config['MYSQL_PASSWORD'] = 'AVNS_36Wt3BMft51pKynDsja'
+app.config['MYSQL_DB'] = 'bookstore'
 
 mysql=MySQL(app)
 app.secret_key = 'lulsecintern'
