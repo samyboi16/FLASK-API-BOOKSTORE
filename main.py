@@ -6,7 +6,7 @@ import MySQLdb.cursors
 import json
 #######################################################################################################################################################################'
 app = Flask(__name__)
-app.config['MYSQL_HOST'] = 'flaskmysql-277577af-sameer-8484.f.aivencloud.com'
+app.config['MYSQL_HOST'] = 'mysql://avnadmin:AVNS_36Wt3BMft51pKynDsja@flaskmysql-277577af-sameer-8484.f.aivencloud.com:26213/defaultdb?ssl-mode=REQUIRED'
 app.config['MYSQL_USER'] = 'avnadmint'
 app.config['MYSQL_PASSWORD'] = 'AVNS_36Wt3BMft51pKynDsja'
 app.config['MYSQL_DB'] = 'bookstore'
