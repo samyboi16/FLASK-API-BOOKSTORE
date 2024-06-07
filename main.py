@@ -1,21 +1,34 @@
-
-
+import re
 from flask_mysqldb import MySQL
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 import MySQLdb.cursors  
 import json
 #######################################################################################################################################################################'
 app = Flask(__name__)
-app.config['MYSQL_HOST'] = 'mysql://avnadmin:AVNS_36Wt3BMft51pKynDsja@flaskmysql-277577af-sameer-8484.f.aivencloud.com:26213/defaultdb?ssl-mode=REQUIRED'
-app.config['MYSQL_USER'] = 'avnadmint'
+app.config['MYSQL_HOST'] = 'flaskmysql-277577af-sameer-8484.f.aivencloud.com'
+app.config['MYSQL_USER'] = 'avnadmin'
 app.config['MYSQL_PASSWORD'] = 'AVNS_36Wt3BMft51pKynDsja'
-app.config['MYSQL_DB'] = 'bookstore'
-app.config['PORT']="26213"
+app.config['MYSQL_DB'] = 'defaultdb'
+app.config['PORT']='26213'
 
 mysql=MySQL(app)
 app.secret_key = 'lulsecintern'
 
 #######################################################################################################################################################################
+#password Validation fucntion
+def is_valid_password(password):
+    if len(password) < 8 or len(password) > 16:
+        return False, "Password must be between 8 and 16 characters long."
+    if not re.search(r'[A-Z]', password):
+        return False, "Password must contain at least one uppercase letter."
+    if not re.search(r'[a-z]', password):
+        return False, "Password must contain at least one lowercase letter."
+    if not re.search(r'\d', password):
+        return False, "Password must contain at least one number."
+    if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
+        return False, "Password must contain at least one symbol."
+    return True, ""
+    
 @app.route('/',methods=['GET'])
 def homepage():
     return render_template('Homepage.html')
@@ -127,6 +140,10 @@ def register():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         username = request.form['username']
         password = request.form['password']
+    is_valid, validation_msg = is_valid_password(password)
+    if not is_valid:
+            msg = validation_msg
+    else:
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM accounts WHERE username = % s', (username, ))
         account = cursor.fetchone()
