@@ -141,20 +141,19 @@ def register():
         username = request.form['username']
         password = request.form['password']
         is_valid, validation_msg = is_valid_password(password)
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM accounts WHERE username = % s', (username, ))
+        account = cursor.fetchone()
+        if account:
+            msg = 'Account already exists !'
+        elif not username or not password:
+            msg = 'Please fill out the form !'
         if not is_valid:
             msg = validation_msg
         else:
-            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute('SELECT * FROM accounts WHERE username = % s', (username, ))
-            account = cursor.fetchone()
-            if account:
-                msg = 'Account already exists !'
-            elif not username or not password:
-                msg = 'Please fill out the form !'
-            else:
-                cursor.execute('INSERT INTO accounts(username,password) VALUES ( % s, % s)', (username, password))
-                mysql.connection.commit()
-                msg = 'You have successfully registered !'
+            cursor.execute('INSERT INTO accounts(username,password) VALUES ( % s, % s)', (username, password))
+            mysql.connection.commit()
+            msg = 'You have successfully registered !'
     elif request.method == 'POST':
         msg = 'Please fill out the form !'
     return render_template('register.html', msg = msg)
