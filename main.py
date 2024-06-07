@@ -5,12 +5,18 @@ import MySQLdb.cursors
 import json
 #######################################################################################################################################################################'
 app = Flask(__name__)
-app.config['MYSQL_HOST'] = 'flaskmysql-277577af-sameer-8484.f.aivencloud.com'
-app.config['MYSQL_USER'] = 'avnadmin'
-app.config['MYSQL_PASSWORD'] = 'AVNS_36Wt3BMft51pKynDsja'
-app.config['MYSQL_DB'] = 'bookstore'
-app.config[''MYSQL_PORT']='26213'
-#app.config['MYSQL_SSL_CA'] = '/path/to/ca(1).pem'
+app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST')
+app.config['MYSQL_USER'] = os.getenv('MYSQL_USER')
+app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
+app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
+app.config['MYSQL_PORT'] = int(os.getenv('MYSQL_PORT'))
+ca_cert = os.getenv('MYSQL_SSL_CA')
+
+if ca_cert:
+    ca_cert_path = '/tmp/ca-cert.pem'
+    with open(ca_cert_path, 'w') as f:
+        f.write(ca_cert)
+    app.config['MYSQL_SSL_CA'] = ca_cert_path
 
 mysql=MySQL(app)
 app.secret_key = 'lulsecintern'
