@@ -9,7 +9,8 @@ app.config['MYSQL_HOST'] = 'flaskmysql-277577af-sameer-8484.f.aivencloud.com'
 app.config['MYSQL_USER'] = 'avnadmin'
 app.config['MYSQL_PASSWORD'] = 'AVNS_36Wt3BMft51pKynDsja'
 app.config['MYSQL_DB'] = 'bookstore'
-app.config['PORT']='26213'
+app.config[''MYSQL_PORT']='26213'
+#app.config['MYSQL_SSL_CA'] = '/path/to/ca(1).pem'
 
 mysql=MySQL(app)
 app.secret_key = 'lulsecintern'
