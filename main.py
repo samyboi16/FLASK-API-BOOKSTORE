@@ -109,6 +109,57 @@ def update():
         msg = 'Updated successfully!'
     return render_template("update.html",msg=msg)
 
+@app.route('/export_csv')
+def export_csv():
+    user_id = session['id']
+    cursor = mysql.connection.cursor()
+    #getting all the books
+    cursor.execute("SELECT * FROM books WHERE id = %s", (user_id,))
+    books_data = cursor.fetchall()
+    # Get the column names from the table
+    columns = [desc[0] for desc in cursor.description]
+    # Initialize an empty list to store the dictionary entries
+    data_as_dict = []
+    # Fetch all rows and convert them into dictionaries
+    for row in books_data:
+        row_dict = {}
+        for i, value in enumerate(row):
+            row_dict[columns[i]] = value
+        data_as_dict.append(row_dict)
+    try:
+        # Check if data_as_dict is empty or not a list
+        if not data_as_dict or not isinstance(data_as_dict, list) or not all(isinstance(item, dict) for item in data_as_dict):
+            raise ValueError("No data available to export.")
+
+        # Create a file-like buffer to receive CSV data
+        proxy = io.StringIO()
+        writer = csv.DictWriter(proxy, fieldnames=data_as_dict[0].keys())
+
+        # Write the header
+        writer.writeheader()
+
+        # Write the data
+        for row in data_as_dict:
+            writer.writerow(row)
+
+        # Move to the beginning of the StringIO buffer
+        proxy.seek(0)
+
+        # Create a response object with the CSV data
+        return send_file(
+            io.BytesIO(proxy.getvalue().encode()),
+            mimetype='text/csv',
+            as_attachment=True,
+            download_name='data.csv'
+        )
+    except ValueError as ve:
+        msg = "You don't seem to have any books in your collection. Start adding!"
+        return render_template('bookcollection.html', msg=msg)
+    except Exception as e:
+        msg = "An error occurred while exporting the data. Please try again later."
+        return render_template('bookcollection.html', msg=msg)
+
+
 ###############################################################################################################################################
 
 @app.route('/login', methods =['GET', 'POST'])
